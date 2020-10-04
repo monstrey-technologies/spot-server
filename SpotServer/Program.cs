@@ -21,7 +21,8 @@ namespace SpotServer
                     Header = new ResponseHeader
                     {
                         RequestHeader = request.Header,
-                        RequestReceivedTimestamp = new Timestamp()
+                        ResponseTimestamp = Timestamp.FromDateTime(DateTime.UtcNow),
+                        RequestReceivedTimestamp = Timestamp.FromDateTime(DateTime.UtcNow),
                     }, 
                     Status = GetAuthTokenResponse.Types.Status.Ok, 
                     Token = "test token"
@@ -39,16 +40,32 @@ namespace SpotServer
                     Header = new ResponseHeader
                     {
                         RequestHeader = request.Header,
-                        RequestReceivedTimestamp = new Timestamp()
+                        ResponseTimestamp = Timestamp.FromDateTime(DateTime.UtcNow),
+                        RequestReceivedTimestamp = Timestamp.FromDateTime(DateTime.UtcNow),
+                        Error = new CommonError{Code = CommonError.Types.Code.Ok}
+                        
                     }, 
                     RobotId = new RobotId
                     {
-                        Nickname = "mock-robot", 
+                        Nickname = "monstrey-technologies", 
                         Species = "spot", 
-                        Version = "2.0", 
-                        SerialNumber = "mock-serial", 
-                        SoftwareRelease = new RobotSoftwareRelease{}, 
-                        ComputerSerialNumber = "1234"
+                        Version = "2.0.0", 
+                        SerialNumber = "B12313",  
+                        ComputerSerialNumber = "fdafds",
+                        SoftwareRelease = new RobotSoftwareRelease
+                        {
+                            Changeset = "Changeset", 
+                            Name = "name",
+                            ApiVersion = "2.0.0",
+                            Type = "someting",
+                            BuildInformation = "Buildinformation",
+                            Version = new SoftwareVersion
+                            {
+                                MajorVersion = 0,
+                                MinorVersion = 0,
+                                PatchLevel = 1
+                            }
+                        }
                     }
                 });
         }

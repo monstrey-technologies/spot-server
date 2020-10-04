@@ -4,3 +4,12 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .idea
+/SpotServer/ca.crt
+/SpotServer/ca.key
+/SpotServer/client.crt
+/SpotServer/client.csr
+/SpotServer/client.key
+/req.conf
+/SpotServer/server.crt
+/SpotServer/server.csr
+/SpotServer/server.key
