@@ -16,4 +16,19 @@
         <ProjectReference Include="..\Spot\Spot.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="server.key">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="server.crt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="ca.crt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="client.crt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
