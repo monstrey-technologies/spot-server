@@ -1,10 +1,53 @@
+## Updating bosdyn.client
+
+### Uninstalling the previous client
 ```
-[req]
-distinguished_name=req
-[san]
-subjectAltName=DNS:id.spot.robot
+pip uninstall -y bosdyn.client
+```
+### Installing the new client
+Navigate in your terminal to: 
+```
+spot-sdk/python/bosdyn-client
+```
+Run the following command to create the module:
+```
+python setup.py bdist_wheel
+```
+next issue the following command:
+```
+pip install ./dist/bosdyn_client-2.0.2-py2.py3-none-any.whl
 ```
 
+single snippet:
+```
+pip uninstall -y bosdyn.client
+python setup.py bdist_wheel
+pip install ./dist/bosdyn_client-2.0.2-py2.py3-none-any.whl
+```
+
+## Certificate configuration
+req.conf:
+```
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+[req_distinguished_name]
+C = BE
+ST = West-Flanders
+L = Oudenburg
+O = Monstrey Technologies
+OU = R&D
+CN = *.spot.robot
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = id.spot.robot
+```
+
+ssl generation command
 ```
 openssl genrsa -passout pass:1111 -des3 -out ca.key 4096
 openssl req -passin pass:1111 -new -x509 -days 365 -key ca.key -out ca.crt -subj  "//CN=rootCA"
@@ -12,11 +55,4 @@ openssl genrsa -passout pass:1111 -des3 -out server.key 4096
 openssl req -passin pass:1111 -new -key server.key -out server.csr -nodes -config req.conf
 openssl x509 -req -passin pass:1111 -days 365 -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out server.crt
 openssl rsa -passin pass:1111 -in server.key -out server.key
-```
-
-```
-openssl genrsa -passout pass:1111 -des3 -out client.key 4096
-openssl req -passin pass:1111 -new -key client.key -out client.csr -subj  "//CN=client"
-openssl x509 -passin pass:1111 -req -days 365 -in client.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out client.crt
-openssl rsa -passin pass:1111 -in client.key -out client.key
 ```
