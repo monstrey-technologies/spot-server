@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Bosdyn.Api;
 using Grpc.Core;
 using SpotServer.infrastructure;
@@ -14,7 +15,7 @@ namespace SpotServer.services
                 {
                     Header = HeaderBuilder.Build(request.Header, new CommonError{Code = CommonError.Types.Code.Ok}),
                     Status = GetAuthTokenResponse.Types.Status.Ok, 
-                    Token = "test token"
+                    Token = new HMACMD5().ComputeHash(System.Text.Encoding.UTF8.GetBytes(request.Username + request.Password)).ToString()
                 });
         }
     }

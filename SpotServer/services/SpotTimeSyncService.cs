@@ -9,6 +9,7 @@ namespace SpotServer.services
 {
     class SpotTimeSyncService : TimeSyncService.TimeSyncServiceBase
     {
+        private const string ClockIdentifier = "clock1234";
         public override Task<TimeSyncUpdateResponse> TimeSyncUpdate(TimeSyncUpdateRequest request, ServerCallContext context)
         {
             return Task.FromResult(new TimeSyncUpdateResponse
@@ -16,20 +17,21 @@ namespace SpotServer.services
                 Header = HeaderBuilder.Build(request.Header, new CommonError{Code = CommonError.Types.Code.Ok}),
                 State = new TimeSyncState
                 {
-                    Status = TimeSyncState.Types.Status.Ok
-                },
-                ClockIdentifier = "123",
-                PreviousEstimate = new TimeSyncEstimate
-                {
-                    ClockSkew = new Duration
+                    Status = TimeSyncState.Types.Status.Ok,
+                    BestEstimate = new TimeSyncEstimate
                     {
-                        Nanos = 10000
+                        ClockSkew = new Duration
+                        {
+                            Seconds = 0,
+                        },
+                        RoundTripTime = new Duration
+                        {
+                            Seconds = 0
+                        },
                     },
-                    RoundTripTime = new Duration
-                    {
-                        Nanos = 50000
-                    }
-                }
+                    MeasurementTime = Timestamp.FromDateTime(DateTime.UtcNow)
+                },
+                ClockIdentifier = request.ClockIdentifier ?? ClockIdentifier,
             });
         }
     }

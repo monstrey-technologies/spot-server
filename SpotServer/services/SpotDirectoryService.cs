@@ -23,43 +23,36 @@ namespace SpotServer.services
                             {
                                 Authority = "auth.spot.robot",
                                 Name = "auth",
-                                UserTokenRequired = false
+                                UserTokenRequired = false,
+                                Type = "bosdyn.api.AuthService"
                             },
                             new ServiceEntry
                             {
                                 Authority = "id.spot.robot",
                                 Name = "robot-id",
-                                UserTokenRequired = false
-                            },
-                            new ServiceEntry
-                            {
-                                Authority = "api.spot.robot",
-                                Name = "directory",
-                                UserTokenRequired = true
+                                UserTokenRequired = false,
+                                Type = "bosdyn.api.RobotIdService"
                             },
                             new ServiceEntry
                             {
                                 Authority = "api.spot.robot",
                                 Name = "directory-registration",
-                                UserTokenRequired = true
-                            },
-                            new ServiceEntry
-                            {
-                                Authority = "graph-nav.spot.robot",
-                                Name = "graph-nav-service",
-                                UserTokenRequired = true
+                                UserTokenRequired = true,
+                                Type = "bosdyn.api.DirectoryService"
                             },
                             new ServiceEntry
                             {
                                 Authority = "estop.spot.robot",
                                 Name = "estop",
-                                UserTokenRequired = true
+                                UserTokenRequired = true,
+                                Type = "bosdyn.api.EstopService"
                             },
                             new ServiceEntry
                             {
                                 Authority = "timesync.spot.robot",
                                 Name = "time-sync",
-                                UserTokenRequired = true
+                                UserTokenRequired = true,
+                                Type = "bosdyn.api.TimeSyncService"
                             }
                         }
                     }
