@@ -21,6 +21,13 @@ namespace SpotServer.services
                         {
                             new ServiceEntry
                             {
+                                Authority = "api.spot.robot",
+                                Name = "lease",
+                                UserTokenRequired = true,
+                                Type = "bosdyn.api.LeaseService"
+                            },
+                            new ServiceEntry
+                            {
                                 Authority = "auth.spot.robot",
                                 Name = "auth",
                                 UserTokenRequired = false,
@@ -30,7 +37,7 @@ namespace SpotServer.services
                             {
                                 Authority = "id.spot.robot",
                                 Name = "robot-id",
-                                UserTokenRequired = false,
+                                UserTokenRequired = true,
                                 Type = "bosdyn.api.RobotIdService"
                             },
                             new ServiceEntry

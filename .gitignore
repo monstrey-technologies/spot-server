@@ -13,3 +13,4 @@ req.conf
 server.crt
 server.csr
 server.key
+*.sln.DotSettings.user

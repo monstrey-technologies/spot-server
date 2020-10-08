@@ -53,17 +53,23 @@ namespace SpotServer.services
         public override Task<EstopCheckInResponse> EstopCheckIn(EstopCheckInRequest request, ServerCallContext context)
         {
             var endpointIndex = RegisteredEndpointsByConfig.FindIndex(status => status.Endpoint.Role == request.Endpoint.Role);
+            EstopCheckInResponse.Types.Status status = EstopCheckInResponse.Types.Status.EndpointUnknown;
             if (endpointIndex >= 0)
             {
                 RegisteredEndpointsByConfig[endpointIndex].StopLevel = request.StopLevel;
+                status = EstopCheckInResponse.Types.Status.Ok;
+                Console.WriteLine($"EstopCheckIn - checkin endpoint: {request.StopLevel} | {request.Endpoint.Role} - {request.Endpoint.Name} | {getStopLevels().Min()}");
             }
-            
-            Console.WriteLine($"EstopCheckIn - checkin endpoint: {request.StopLevel} | {request.Endpoint.Role} - {request.Endpoint.Name} | {getStopLevels().Min()}");
+
+            if (request.Challenge != ~request.Response)
+            {
+                status = EstopCheckInResponse.Types.Status.IncorrectChallengeResponse;
+            }
             
             return Task.FromResult(new EstopCheckInResponse
             {
                 Header = HeaderBuilder.Build(request.Header, new CommonError{Code = CommonError.Types.Code.Ok}),
-                Status = (request.Challenge == ~request.Response)?EstopCheckInResponse.Types.Status.Ok:EstopCheckInResponse.Types.Status.IncorrectChallengeResponse,
+                Status = status,
                 Request = request,
                 Challenge = request.Challenge
             });
