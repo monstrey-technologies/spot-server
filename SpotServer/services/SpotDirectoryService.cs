@@ -50,6 +50,13 @@ namespace SpotServer.services
                             },
                             new ServiceEntry
                             {
+                                Authority = "api.spot.robot",
+                                Name = "image",
+                                UserTokenRequired = true,
+                                Type = "bosdyn.api.ImageService"
+                            },
+                            new ServiceEntry
+                            {
                                 Authority = "auth.spot.robot",
                                 Name = "auth",
                                 UserTokenRequired = false,

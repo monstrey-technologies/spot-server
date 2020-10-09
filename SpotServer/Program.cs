@@ -26,7 +26,8 @@ namespace SpotServer
                     LeaseService.BindService(new SpotLeaseService()),
                     PowerService.BindService(new SpotPowerService()),
                     RobotStateService.BindService(new SpotRobotStateService()),
-                    RobotCommandService.BindService(new SpotRobotCommandService())
+                    RobotCommandService.BindService(new SpotRobotCommandService()),
+                    ImageService.BindService(new SpotImageService())
                 },
                 Ports = { new ServerPort(
                     "0.0.0.0", 
