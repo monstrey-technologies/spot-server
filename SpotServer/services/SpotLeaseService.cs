@@ -5,18 +5,19 @@ using System.Threading.Tasks;
 using Bosdyn.Api;
 using Grpc.Core;
 using SpotServer.infrastructure;
+using SpotServer.robot;
 
 namespace SpotServer.services
 {
     public class SpotLeaseService : LeaseService.LeaseServiceBase
     {
-        private static readonly Dictionary<string, Tuple<String, Lease>> Leases = new Dictionary<string, Tuple<String, Lease>>();
+        
 
         public override Task<AcquireLeaseResponse> AcquireLease(AcquireLeaseRequest request, ServerCallContext context)
         {
             AcquireLeaseResponse.Types.Status status;
             Lease lease = null;
-            Leases.TryGetValue(request.Resource, out var leaseTuple);
+            SpotRobot.SpotInstance.Leases.TryGetValue(request.Resource, out var leaseTuple);
             if (leaseTuple == null)
             {
                 lease = new Lease
@@ -24,7 +25,7 @@ namespace SpotServer.services
                     Resource = request.Resource,
                     Sequence = { 1 }
                 };
-                Leases.Add(request.Resource, new Tuple<string, Lease>(request.Header.ClientName, lease));
+                SpotRobot.SpotInstance.Leases.Add(request.Resource, new Tuple<string, Lease>(request.Header.ClientName, lease));
                 Console.WriteLine($"AcquireLease - registering new lease for resource \"{request.Resource}\" and client \"{request.Header.ClientName}\"");
                 status = AcquireLeaseResponse.Types.Status.Ok;
             }
@@ -77,10 +78,10 @@ namespace SpotServer.services
         {
             ReturnLeaseResponse.Types.Status status = ReturnLeaseResponse.Types.Status.NotActiveLease;
             
-            var key = Leases.First(pair =>  pair.Value.Item1 == request.Header.ClientName ).Key;
+            var key = SpotRobot.SpotInstance.Leases.First(pair =>  pair.Value.Item1 == request.Header.ClientName ).Key;
             if (key != null)
             {
-                Leases.Remove(key);
+                SpotRobot.SpotInstance.Leases.Remove(key);
                 status = ReturnLeaseResponse.Types.Status.Ok;
                 Console.WriteLine($"ReturnLease - lease returned for resource \"{ key }\" by client \"{request.Header.ClientName}\"");
             }

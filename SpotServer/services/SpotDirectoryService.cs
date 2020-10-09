@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Bosdyn.Api;
 using Google.Protobuf.Collections;
@@ -32,6 +33,20 @@ namespace SpotServer.services
                                 Name = "power",
                                 UserTokenRequired = true,
                                 Type = "bosdyn.api.PowerService"
+                            },
+                            new ServiceEntry
+                            {
+                                Authority = "api.spot.robot",
+                                Name = "robot-command",
+                                UserTokenRequired = true,
+                                Type = "bosdyn.api.RobotCommandService"
+                            },
+                            new ServiceEntry
+                            {
+                                Authority = "api.spot.robot",
+                                Name = "robot-state",
+                                UserTokenRequired = true,
+                                Type = "bosdyn.api.RobotStateService"
                             },
                             new ServiceEntry
                             {
