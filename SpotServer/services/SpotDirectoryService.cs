@@ -28,6 +28,13 @@ namespace SpotServer.services
                             },
                             new ServiceEntry
                             {
+                                Authority = "api.spot.robot",
+                                Name = "power",
+                                UserTokenRequired = true,
+                                Type = "bosdyn.api.PowerService"
+                            },
+                            new ServiceEntry
+                            {
                                 Authority = "auth.spot.robot",
                                 Name = "auth",
                                 UserTokenRequired = false,

@@ -23,7 +23,8 @@ namespace SpotServer
                     DirectoryService.BindService(new SpotDirectoryService()),
                     TimeSyncService.BindService(new SpotTimeSyncService()),
                     EstopService.BindService(new SpotEstopService()),
-                    LeaseService.BindService(new SpotLeaseService())
+                    LeaseService.BindService(new SpotLeaseService()),
+                    PowerService.BindService(new SpotPowerService())
                 },
                 Ports = { new ServerPort(
                     "0.0.0.0", 
