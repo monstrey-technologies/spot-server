@@ -69,3 +69,21 @@ openssl req -passin pass:1111 -new -key server.key -out server.csr -nodes -confi
 openssl x509 -req -passin pass:1111 -days 365 -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out server.crt
 openssl rsa -passin pass:1111 -in server.key -out server.key
 ```
+
+Then you have to copy the generated files to the location where the program needs them:
+```
+$ cp server.crt spot-server/SpotServer/bin/Debug/netcoreapp3.1/
+$ cp server.key spot-server/SpotServer/bin/Debug/netcoreapp3.1/
+$ cp ca.crt     spot-server/SpotServer/bin/Debug/netcoreapp3.1/
+```
+
+## Start the server
+The server runs in port 443, so you have to execute it as root/sudo:
+```
+$ sudo spot-server/SpotServer/bin/Debug/netcoreapp3.1/SpotServer
+[sudo] password for root: 
+D1022 17:09:16.631023 Grpc.Core.Internal.UnmanagedLibrary Attempting to load native library "spot-server/SpotServer/bin/Debug/netcoreapp3.1/runtimes/linux/native/libgrpc_csharp_ext.x64.so"
+D1022 17:09:16.782109 Grpc.Core.Internal.NativeExtension gRPC native library loaded successfully.
+Virtual spot 001 is active on port 443
+Press any key to shutdown
+```
