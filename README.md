@@ -11,6 +11,7 @@ spot-sdk/python/bosdyn-client
 ```
 Run the following command to create the module:
 ```
+export BOSDYN_SDK_VERSION=2.0.2
 python setup.py bdist_wheel
 ```
 next issue the following command:
@@ -21,6 +22,7 @@ pip install ./dist/bosdyn_client-2.0.2-py2.py3-none-any.whl
 single snippet:
 ```
 pip uninstall -y bosdyn.client
+export BOSDYN_SDK_VERSION=2.0.2
 python setup.py bdist_wheel
 pip install ./dist/bosdyn_client-2.0.2-py2.py3-none-any.whl
 ```
