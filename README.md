@@ -26,6 +26,17 @@ export BOSDYN_SDK_VERSION=2.0.2
 python setup.py bdist_wheel
 pip install ./dist/bosdyn_client-2.0.2-py2.py3-none-any.whl
 ```
+### Installing .NET Core on Linux
+If you are using some Linux distro, follow the instructions provided by MSFT:
+https://docs.microsoft.com/en-us/dotnet/core/install/linux
+
+### Building the project on Linux
+Once you have installed .NET Core issue the following commands:
+```
+$ cd spot-server
+$ dotnet restore
+$ dotnet build
+```
 
 ## Certificate configuration
 req.conf:
