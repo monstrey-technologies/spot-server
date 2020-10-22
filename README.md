@@ -77,6 +77,13 @@ $ cp server.key spot-server/SpotServer/bin/Debug/netcoreapp3.1/
 $ cp ca.crt     spot-server/SpotServer/bin/Debug/netcoreapp3.1/
 ```
 
+The final step is to copy the new public cert to the client:
+```
+$ cp YOUR_VIRTUALENV/lib/python3.6/site-packages/bosdyn/client/resources/robot.pem \
+     YOUR_VIRTUALENV/lib/python3.6/site-packages/bosdyn/client/resources/robot.pem.orig
+$ cp server.crt YOUR_VIRTUALENV/lib/python3.6/site-packages/bosdyn/client/resources/robot.pem 
+```
+
 ## Start the server
 The server runs in port 443, so you have to execute it as root/sudo:
 ```
