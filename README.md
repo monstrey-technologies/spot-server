@@ -11,6 +11,7 @@ spot-sdk/python/bosdyn-client
 ```
 Run the following command to create the module:
 ```
+export BOSDYN_SDK_VERSION=2.0.2
 python setup.py bdist_wheel
 ```
 next issue the following command:
@@ -21,8 +22,20 @@ pip install ./dist/bosdyn_client-2.0.2-py2.py3-none-any.whl
 single snippet:
 ```
 pip uninstall -y bosdyn.client
+export BOSDYN_SDK_VERSION=2.0.2
 python setup.py bdist_wheel
 pip install ./dist/bosdyn_client-2.0.2-py2.py3-none-any.whl
+```
+### Installing .NET Core on Linux
+If you are using some Linux distro, follow the instructions provided by MSFT:
+https://docs.microsoft.com/en-us/dotnet/core/install/linux
+
+### Building the project on Linux
+Once you have installed .NET Core issue the following commands:
+```
+$ cd spot-server
+$ dotnet restore
+$ dotnet build
 ```
 
 ## Certificate configuration
@@ -55,4 +68,29 @@ openssl genrsa -passout pass:1111 -des3 -out server.key 4096
 openssl req -passin pass:1111 -new -key server.key -out server.csr -nodes -config req.conf
 openssl x509 -req -passin pass:1111 -days 365 -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out server.crt
 openssl rsa -passin pass:1111 -in server.key -out server.key
+```
+
+Then you have to copy the generated files to the location where the program needs them:
+```
+$ cp server.crt spot-server/SpotServer/bin/Debug/netcoreapp3.1/
+$ cp server.key spot-server/SpotServer/bin/Debug/netcoreapp3.1/
+$ cp ca.crt     spot-server/SpotServer/bin/Debug/netcoreapp3.1/
+```
+
+The final step is to copy the new public cert to the client:
+```
+$ cp YOUR_VIRTUALENV/lib/python3.6/site-packages/bosdyn/client/resources/robot.pem \
+     YOUR_VIRTUALENV/lib/python3.6/site-packages/bosdyn/client/resources/robot.pem.orig
+$ cp server.crt YOUR_VIRTUALENV/lib/python3.6/site-packages/bosdyn/client/resources/robot.pem 
+```
+
+## Start the server
+The server runs in port 443, so you have to execute it as root/sudo:
+```
+$ sudo spot-server/SpotServer/bin/Debug/netcoreapp3.1/SpotServer
+[sudo] password for root: 
+D1022 17:09:16.631023 Grpc.Core.Internal.UnmanagedLibrary Attempting to load native library "spot-server/SpotServer/bin/Debug/netcoreapp3.1/runtimes/linux/native/libgrpc_csharp_ext.x64.so"
+D1022 17:09:16.782109 Grpc.Core.Internal.NativeExtension gRPC native library loaded successfully.
+Virtual spot 001 is active on port 443
+Press any key to shutdown
 ```
